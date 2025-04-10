@@ -10,13 +10,11 @@ fernet = Fernet(chave)
 
 with open('formulariosolicitacaopagamento-16b35458658e.json', 'rb') as f:
     conteudo_criptografado = f.read()
-
 conteudo_descriptografado = fernet.decrypt(conteudo_criptografado)
 
 with tempfile.NamedTemporaryFile('wb', delete=False, suffix='.json') as temp_json:
     temp_json.write(conteudo_descriptografado)
     caminho_arquivo_temp = temp_json.name
-
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = caminho_arquivo_temp
 
 import script
@@ -44,5 +42,15 @@ for i, linha in enumerate(script.dados, start=2):
         else:
             continue
 
-        webbrowser.open(f'https://web.whatsapp.com/send?phone={telefone}&text=Olá {nome}, esta é uma mensagem automática :)')
+        mensagem = f'Olá, {nome} %0A'
+        mensagem += f'Remessa: {linha.get("REMESSA")} %0A'
+        mensagem += f'Empresa: {linha.get("EMPRESA")} %0A'
+        mensagem += f'CNPJ: {linha.get("CNPJ")} %0A%0A'
+        mensagem += f'OBS: {linha.get("OBS")} %0A%0A'
+        mensagem += f'Valor: {linha.get("VALOR")} %0A'
+        mensagem += f'Data de envio ao banco: {linha.get("DATA DE ENVIO AO BANCO")} %0A'
+        mensagem += f'Período: {linha.get("PERÍODO")} %0A'
+
+
+        webbrowser.open(f'https://web.whatsapp.com/send?phone={telefone}&text={mensagem}')
         time.sleep(7)
