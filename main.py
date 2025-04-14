@@ -22,35 +22,44 @@ import script
 cabecalho = script.planilha.row_values(1)
 data_atual = datetime.date.today().strftime('%d/%m/%Y')
 
-for i, linha in enumerate(script.dados, start=2):
+mensagens_por_diretoria = {}
+
+for linha in script.dados:
     if linha.get('DATA DE ENVIO AO BANCO') == data_atual:
-        if linha.get('DIRETORIA') == 'DOE':
-            nome = 'Conceição'
-            telefone = '+5581991492389'
-        elif linha.get('DIRETORIA') == 'DOB':
-            nome = 'Conceição'
-            telefone = '+5581998772704'
-        elif linha.get('DIRETORIA') == 'DPH':
-            nome = ''
-            telefone = '+'
-        elif linha.get('DIRETORIA') == 'DAF':
-            nome = ''
-            telefone = '+'
-        elif linha.get('DIRETORIA') == 'SUJUR':
-            nome = ''
-            telefone = '+'
-        else:
+        diretoria = linha.get('DIRETORIA')
+        if diretoria not in ['DOE', 'DOB', 'DPH', 'DAF', 'SUJUR']:
             continue
 
-        mensagem = f'Olá, {nome} %0A'
-        mensagem += f'Remessa: {linha.get("REMESSA")} %0A'
+        if diretoria not in mensagens_por_diretoria:
+            mensagens_por_diretoria[diretoria] = []
+
+        mensagens_por_diretoria[diretoria].append(linha)
+
+for diretoria, linhas in mensagens_por_diretoria.items():
+    if diretoria == 'DOE':
+        nome = 'Conceição'
+        telefone = '+558184459945'
+    elif diretoria == 'DOB':
+        nome = 'Conceição'
+        telefone = '+558184459945'
+    elif diretoria in ['DPH', 'DAF', 'SUJUR']:
+        nome = ''
+        telefone = '+558184459945'
+    else:
+        continue
+
+    mensagem = f'Olá, {nome} %0A'
+    mensagem += f'Diretoria: {diretoria} %0A%0A'
+
+    for linha in linhas:
+        mensagem += f'--- %0A'
+        mensagem += f'Remessa: {linha.get("REMESSA/OFÍCIO")} %0A'
         mensagem += f'Empresa: {linha.get("EMPRESA")} %0A'
-        mensagem += f'CNPJ: {linha.get("CNPJ")} %0A%0A'
-        mensagem += f'OBS: {linha.get("OBS")} %0A%0A'
+        mensagem += f'CNPJ: {linha.get("CNPJ")} %0A'
+        mensagem += f'OBS: {linha.get("OBS")} %0A'
         mensagem += f'Valor: {linha.get("VALOR")} %0A'
         mensagem += f'Data de envio ao banco: {linha.get("DATA DE ENVIO AO BANCO")} %0A'
-        mensagem += f'Período: {linha.get("PERÍODO")} %0A'
+        mensagem += f'Período: {linha.get("PERÍODO")} %0A%0A'
 
-
-        webbrowser.open(f'https://web.whatsapp.com/send?phone={telefone}&text={mensagem}')
-        time.sleep(7)
+    webbrowser.open(f'https://web.whatsapp.com/send?phone={telefone}&text={mensagem}')
+    time.sleep(7)
