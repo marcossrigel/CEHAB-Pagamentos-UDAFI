@@ -4,6 +4,7 @@ import time
 import tempfile
 import os
 from cryptography.fernet import Fernet
+import pyautogui
 
 chave = b'aLnLEwboui6Lfa3NWgYLk0_suDi53AAXZBFsh_o56Pg='
 fernet = Fernet(chave)
@@ -41,7 +42,7 @@ for diretoria, linhas in mensagens_por_diretoria.items():
         telefone = '+558184459945'
     elif diretoria == 'DOB':
         nome = 'Conceição'
-        telefone = '+558184459945'
+        telefone = '+558199004886'
     elif diretoria in ['DPH', 'DAF', 'SUJUR']:
         nome = ''
         telefone = '+558184459945'
@@ -52,7 +53,7 @@ for diretoria, linhas in mensagens_por_diretoria.items():
     mensagem += f'Diretoria: {diretoria} %0A%0A'
 
     for linha in linhas:
-        mensagem += f'--- %0A'
+        mensagem += f'----- %0A'
         mensagem += f'Remessa: {linha.get("REMESSA/OFÍCIO")} %0A'
         mensagem += f'Empresa: {linha.get("EMPRESA")} %0A'
         mensagem += f'CNPJ: {linha.get("CNPJ")} %0A'
@@ -62,4 +63,6 @@ for diretoria, linhas in mensagens_por_diretoria.items():
         mensagem += f'Período: {linha.get("PERÍODO")} %0A%0A'
 
     webbrowser.open(f'https://web.whatsapp.com/send?phone={telefone}&text={mensagem}')
-    time.sleep(7)
+    time.sleep(9)
+    pyautogui.hotkey('ctrl', 'w')
+    
