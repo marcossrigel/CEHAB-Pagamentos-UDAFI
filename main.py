@@ -42,9 +42,9 @@ for diretoria, linhas in mensagens_por_diretoria.items():
         telefone = '+558184459945'
     elif diretoria == 'DOB':
         nome = 'Conceição'
-        telefone = '+558199004886'
+        telefone = '+558184459945'
     elif diretoria in ['DPH', 'DAF', 'SUJUR']:
-        nome = ''
+        nome = 'Conceição'
         telefone = '+558184459945'
     else:
         continue
@@ -57,7 +57,7 @@ for diretoria, linhas in mensagens_por_diretoria.items():
         mensagem += f'Remessa: {linha.get("REMESSA/OFÍCIO")} %0A'
         mensagem += f'Empresa: {linha.get("EMPRESA")} %0A'
         mensagem += f'CNPJ: {linha.get("CNPJ")} %0A'
-        mensagem += f'OBS: {linha.get("OBS")} %0A'
+        mensagem += f'OBS: {linha.get("OBS")} %0A%0A'
         mensagem += f'Valor: {linha.get("VALOR")} %0A'
         mensagem += f'Data de envio ao banco: {linha.get("DATA DE ENVIO AO BANCO")} %0A'
         mensagem += f'Período: {linha.get("PERÍODO")} %0A%0A'
@@ -65,4 +65,3 @@ for diretoria, linhas in mensagens_por_diretoria.items():
     webbrowser.open(f'https://web.whatsapp.com/send?phone={telefone}&text={mensagem}')
     time.sleep(9)
     pyautogui.hotkey('ctrl', 'w')
-    
