@@ -61,5 +61,5 @@ for diretoria, linhas in mensagens_por_diretoria.items():
         mensagem += f'Período: {linha.get("PERÍODO")} %0A%0A'
         
         webbrowser.open(f'https://web.whatsapp.com/send?phone={telefone}&text={mensagem}')
-        time.sleep(9)
+        time.sleep(7)
         pyautogui.hotkey('ctrl', 'w')
