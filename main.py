@@ -35,32 +35,19 @@ for linha in script.dados:
 
 for diretoria, linhas in mensagens_por_diretoria.items():
     if diretoria == 'DOE':
-        nome = 'Matheus'
-        telefone = '+'
-
-    elif diretoria == 'DOB':
-        nome = 'BD'
-        telefone = '+'
+        telefone = '+5581994479229'
 
     elif diretoria == 'DOHDU':
-        nome = 'Morgana'
-        telefone = '+'
-
-    elif diretoria == 'DAF':
-        nome = 'BRUNO'
-        telefone = '+'
-
-    elif diretoria == 'DPH':
-        nome = 'Gabi'
-        telefone = '+'
+        telefone = '+5581997021477'
 
     elif diretoria == 'SUJUR':
-        nome = 'Martins'
-        telefone = '+'
+        telefone = '+5581991650605'
+
+    elif diretoria == 'DPH':
+        telefone = '+5581997292838'
     else:
         continue
 
-    mensagem = f'Olá, {nome} %0A'
     mensagem += f'Diretoria: {diretoria} %0A%0A'
 
     for linha in linhas:
@@ -76,23 +63,3 @@ for diretoria, linhas in mensagens_por_diretoria.items():
         webbrowser.open(f'https://web.whatsapp.com/send?phone={telefone}&text={mensagem}')
         time.sleep(9)
         pyautogui.hotkey('ctrl', 'w')
-
-nome = 'BRUNO'
-telefone = '+558196371593'
-mensagem_daf = f'Olá, {nome} %0A'
-mensagem_daf += f'Mensagem consolidada de TODAS as diretorias %0A%0A'
-for diretoria, linhas in mensagens_por_diretoria.items():
-    mensagem_daf += f' Diretoria: {diretoria} %0A%0A'
-    for linha in linhas:
-        mensagem_daf += f'----- %0A'
-        mensagem_daf += f'Remessa: {linha.get("REMESSA/ OFÍCIO")} %0A'
-        mensagem_daf += f'Empresa: {linha.get("EMPRESA")} %0A'
-        mensagem_daf += f'CNPJ: {linha.get("CNPJ")} %0A'
-        mensagem_daf += f'OBS: {linha.get("OBS")} %0A%0A'
-        mensagem_daf += f'Valor: {linha.get("VALOR")} %0A'
-        mensagem_daf += f'Data de envio ao banco: {linha.get("DATA DE ENVIO AO BANCO")} %0A'
-        mensagem_daf += f'Período: {linha.get("PERÍODO")} %0A%0A'
-
-    webbrowser.open(f'https://web.whatsapp.com/send?phone={telefone}&text={mensagem_daf}')
-    time.sleep(9)
-    pyautogui.hotkey('ctrl', 'w')
