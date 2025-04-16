@@ -5,6 +5,10 @@ import tempfile
 import os
 from cryptography.fernet import Fernet
 import pyautogui
+from oauth2client.service_account import ServiceAccountCredentials
+import pandas as pd
+import gspread
+import os
 
 chave = b'aLnLEwboui6Lfa3NWgYLk0_suDi53AAXZBFsh_o56Pg='
 fernet = Fernet(chave)
@@ -18,14 +22,32 @@ with tempfile.NamedTemporaryFile('wb', delete=False, suffix='.json') as temp_jso
     caminho_arquivo_temp = temp_json.name
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = caminho_arquivo_temp
 
-import script
 
-cabecalho = script.planilha.row_values(1)
+file = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+
+scopes = [
+    'https://spreadsheets.google.com/feeds',
+    'https://www.googleapis.com/auth/drive',
+]
+
+creds = ServiceAccountCredentials.from_json_keyfile_name(
+    filename=file,
+    scopes=scopes
+)
+client = gspread.authorize(creds)
+print(client)
+
+planilha_completa = client.open_by_key('1MQbo9Q55HyRGgJsYrhm5t5mjd3idmHe0zUdvhgYSFYU')
+planilha = planilha_completa.get_worksheet(0)
+dados = planilha.get_all_records()
+
+
+cabecalho = planilha.row_values(1)
 data_atual = datetime.date.today().strftime('%d/%m/%Y')
 
 mensagens_por_diretoria = {}
 
-for linha in script.dados:
+for linha in dados:
     if linha.get('DATA DE ENVIO AO BANCO') == '14/04/2025':
         diretoria = linha.get('DIRETORIA')
         if diretoria not in mensagens_por_diretoria:
@@ -35,20 +57,20 @@ for linha in script.dados:
 
 for diretoria, linhas in mensagens_por_diretoria.items():
     if diretoria == 'DOE':
-        telefone = '+5581994479229'
+        telefone = '+558194994938'
 
     elif diretoria == 'DOHDU':
-        telefone = '+5581997021477'
-
-    elif diretoria == 'SUJUR':
-        telefone = '+5581991650605'
+        telefone = '+558199004886'
 
     elif diretoria == 'DPH':
-        telefone = '+5581997292838'
+        telefone = '+558188458189'
+
+    elif diretoria == 'SUJUR':
+        telefone = '+553499610569'
     else:
         continue
 
-    mensagem += f'Diretoria: {diretoria} %0A%0A'
+    mensagem = f'Diretoria: {diretoria} %0A%0A'
 
     for linha in linhas:
         mensagem += f'----- %0A'
@@ -61,5 +83,5 @@ for diretoria, linhas in mensagens_por_diretoria.items():
         mensagem += f'Período: {linha.get("PERÍODO")} %0A%0A'
         
         webbrowser.open(f'https://web.whatsapp.com/send?phone={telefone}&text={mensagem}')
-        time.sleep(7)
+        time.sleep(6)
         pyautogui.hotkey('ctrl', 'w')
