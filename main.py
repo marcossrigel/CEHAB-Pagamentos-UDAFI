@@ -22,7 +22,6 @@ with tempfile.NamedTemporaryFile('wb', delete=False, suffix='.json') as temp_jso
     caminho_arquivo_temp = temp_json.name
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = caminho_arquivo_temp
 
-
 file = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
 
 scopes = [
