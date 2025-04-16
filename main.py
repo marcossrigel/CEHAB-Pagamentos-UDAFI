@@ -48,7 +48,7 @@ data_atual = datetime.date.today().strftime('%d/%m/%Y')
 mensagens_por_diretoria = {}
 
 for linha in dados:
-    if linha.get('DATA DE ENVIO AO BANCO') == '14/04/2025':
+    if linha.get('DATA DE ENVIO AO BANCO') == data_atual:
         diretoria = linha.get('DIRETORIA')
         if diretoria not in mensagens_por_diretoria:
             mensagens_por_diretoria[diretoria] = []
@@ -57,16 +57,16 @@ for linha in dados:
 
 for diretoria, linhas in mensagens_por_diretoria.items():
     if diretoria == 'DOE':
-        telefone = '+558194994938'
+        telefone = '+5581994479229'
 
     elif diretoria == 'DOHDU':
-        telefone = '+558199004886'
+        telefone = '+5581997021477'
 
     elif diretoria == 'DPH':
-        telefone = '+558188458189'
+        telefone = '+5581997292838'
 
     elif diretoria == 'SUJUR':
-        telefone = '+553499610569'
+        telefone = '+5581991650605'
     else:
         continue
 
